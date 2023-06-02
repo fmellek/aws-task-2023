@@ -28,7 +28,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security Group for RDS DB Instance
-      VpcId: vpc-0dd7eaae732dd06ff
+      VpcId: !ImportValue MyVPC
       SecurityGroupIngress:
          - IpProtocol: tcp
            FromPort: 3306
@@ -40,7 +40,7 @@ Resources:
     Properties:
       DBSubnetGroupDescription: Subnet group for RDS DB Instance
       SubnetIds:
-           - subnet-0c04eeda3be55e962
-           - subnet-00ac4dee4d07a3850
+           - !ImportValue PrivateSubnet1c
+           - !ImportValue PrivateSubnet1d
 
 
