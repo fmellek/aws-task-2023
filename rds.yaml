@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation RDS Instance Creation
+Resources:
+  MyDBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: mydatabase
+      Engine: mariadb
+      DBInstanceIdentifier: MyDBInstance
+      MasterUsername: fmellek
+      MasterUserPassword: fatih123
+      AllocatedStorage: 20
+      DBInstanceClass: db.t2.micro
+      PubliclyAccessible: false
+      StorageType: gp2
+      VPCSecurityGroups:
+        - !Ref MyRDSSecurityGroup
+      DBSubnetGroupName: !Ref MyDBSubnetGroup
+      MultiAZ: false
+      AvailabilityZone: "us-east-1c"
+      Tags:
+        - Key: Name
+          Value: RDSIntance
+        - Key: Purpose
+          Value: WordPress
+  
+  MyRDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for RDS DB Instance
+      VpcId: vpc-0dd7eaae732dd06ff
+      SecurityGroupIngress:
+         - IpProtocol: tcp
+           FromPort: 3306
+           ToPort: 3306
+           CidrIp: 10.0.1.0/25
+
+  MyDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for RDS DB Instance
+      SubnetIds:
+           - subnet-0c04eeda3be55e962
+           - subnet-00ac4dee4d07a3850
+
+
